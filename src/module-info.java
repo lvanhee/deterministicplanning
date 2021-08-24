@@ -4,4 +4,5 @@ module deterministicplanning {
 	
 	exports deterministicplanning.models;
 	exports deterministicplanning.solvers;
+	exports deterministicplanning.solvers.planningoutcomes;
 }
