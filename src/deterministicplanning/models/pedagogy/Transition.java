@@ -1,4 +1,4 @@
-package deterministicplanning.models;
+package deterministicplanning.models.pedagogy;
 
 import finitestatemachine.Action;
 import finitestatemachine.State;

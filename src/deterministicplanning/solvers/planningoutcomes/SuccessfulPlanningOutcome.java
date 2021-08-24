@@ -1,4 +1,4 @@
-package deterministicplanning.solvers;
+package deterministicplanning.solvers.planningoutcomes;
 
 import deterministicplanning.models.Plan;
 import finitestatemachine.Action;

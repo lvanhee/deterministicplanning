@@ -1,8 +1,7 @@
-package deterministicplanning.solvers;
+package deterministicplanning.models;
 
 import java.util.List;
 
-import deterministicplanning.models.Plan;
 import finitestatemachine.Action;
 import finitestatemachine.State;
 import markov.impl.PairImpl;

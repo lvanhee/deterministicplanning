@@ -3,7 +3,7 @@ package deterministicplanning.mains;
 import deterministicplanning.models.WorldModel;
 import deterministicplanning.models.pedagogy.ListbasedNongenericWorldModel;
 import deterministicplanning.solvers.Planning;
-import deterministicplanning.solvers.PlanningOutcome;
+import deterministicplanning.solvers.planningoutcomes.PlanningOutcome;
 import finitestatemachine.Action;
 import finitestatemachine.State;
 import finitestatemachine.impl.StringActionImpl;

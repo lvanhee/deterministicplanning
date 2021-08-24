@@ -7,10 +7,11 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import deterministicplanning.models.FunctionBasedDeterministicWorldModel;
 import deterministicplanning.models.WorldModel;
 import deterministicplanning.models.pedagogy.ListbasedNongenericWorldModel;
 import deterministicplanning.solvers.Planning;
-import deterministicplanning.solvers.PlanningOutcome;
+import deterministicplanning.solvers.planningoutcomes.PlanningOutcome;
 import finitestatemachine.Action;
 import finitestatemachine.State;
 import finitestatemachine.impl.StringActionImpl;

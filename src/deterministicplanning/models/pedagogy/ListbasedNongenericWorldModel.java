@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import deterministicplanning.models.Transition;
 import deterministicplanning.models.WorldModel;
 import finitestatemachine.Action;
 import finitestatemachine.State;

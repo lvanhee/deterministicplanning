@@ -5,7 +5,11 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 
 import deterministicplanning.models.Plan;
+import deterministicplanning.models.PlanImpl;
 import deterministicplanning.models.WorldModel;
+import deterministicplanning.solvers.planningoutcomes.FailedPlanningOutcome;
+import deterministicplanning.solvers.planningoutcomes.PlanningOutcome;
+import deterministicplanning.solvers.planningoutcomes.SuccessfulPlanningOutcome;
 import finitestatemachine.Action;
 import finitestatemachine.State;
 import markov.MDP;

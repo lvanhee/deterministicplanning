@@ -1,10 +1,9 @@
-package deterministicplanning.mains;
+package deterministicplanning.models;
 
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import deterministicplanning.models.WorldModel;
 import finitestatemachine.Action;
 import finitestatemachine.State;
 
