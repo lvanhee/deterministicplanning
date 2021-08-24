@@ -1,8 +1,11 @@
 package deterministicplanning.mains;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import deterministicplanning.models.WorldModel;
 import deterministicplanning.models.pedagogy.ListbasedNongenericWorldModel;
@@ -28,55 +31,60 @@ import finitestatemachine.impl.StringStateImpl;
  * 
  */
 public class MainForAiDeveloppers {
-	private enum MinimalMainState{START, GOAL, GOOD_FIRST_STEP, BAD_FIRST_STEP};
-	private enum MinimalMainAction{FORWARD,STAND,LEFT,RIGHT};
-	
-	private static final State start = StringStateImpl.newInstance("start");
-	private static final State goal = StringStateImpl.newInstance("goal");
-	
+
+	/**
+	 * First, define explicit types for states of actions. As, in this example, the set of states is bounded and
+	 * known, an enum is enough. But, probably, for your models, you will need to define a new class that implements state.
+	 * 
+	 * @author loisv
+	 *
+	 */
+	private enum MinimalMainState implements State {START, GOAL, GOOD_FIRST_STEP, BAD_FIRST_STEP};
+	private enum MinimalMainAction implements Action{FORWARD,STAND,LEFT,RIGHT};
+
 	public static void main(String[] args)
 	{
-	/**
-	 * 1- Creating a deterministic world model
-	 */
-	WorldModel<State,Action> wm = generateWorldModel();
-	
-	
-	/**
-	 * 2- Creating computing the result
-	 * Write your own function instead of Planning.resolve.
-	 * 
-	 */
-	final int horizon = 5;
-	PlanningOutcome result = Planning.resolve(wm,start, goal, horizon);
-	System.out.println(result);
-	
-	
+		/**
+		 * 1- Creating a deterministic world model
+		 */
+		WorldModel<MinimalMainState,MinimalMainAction> wm = generateWorldModel();
+
+
+		/**
+		 * 2- Creating computing the result
+		 * Write your own function instead of Planning.resolve.
+		 * 
+		 */
+		final int horizon = 5;
+		PlanningOutcome result = Planning.resolve(wm,MinimalMainState.START, MinimalMainState.GOAL, horizon);
+		System.out.println(result);
 	}
 
-	private static WorldModel<State,Action> generateWorldModel() {
-		Function<MinimalMainState, Set<MinimalMainAction>> actions = x->{
-			Set<MinimalMainAction> res = new HashSet<>();
-			res.add(STAND);
-			switch (x) {
-			case START: res.add(LEFT);res.add(RIGHT);break;
-			case 
-			}
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + x);
-			}
-		}
-		FunctionBasedWorldModelImpl.newInstance()
-		ListbasedNongenericWorldModel model = new ListbasedNongenericWorldModel();
-		model.addTransition(start,left,goodFirstStep);
-		model.addTransition(goodFirstStep,forward,goal);
-		model.addTransition(start,right,badFirstStep);
-		model.addTransition(start, standStill, start);
-		model.addTransition(goal, standStill, goal);
-		model.addTransition(badFirstStep, standStill, badFirstStep);
-		model.addTransition(goodFirstStep, standStill, goodFirstStep);
-		
-		return model;
+	private static WorldModel<MinimalMainState,MinimalMainAction> generateWorldModel() {
+		Function<MinimalMainState, Set<MinimalMainAction>> actionsPerState = 
+				x->{
+					Set<MinimalMainAction> res = new HashSet<>();
+					res.add(MinimalMainAction.STAND);
+					switch (x) {
+					case START: res.add(MinimalMainAction.LEFT);res.add(MinimalMainAction.RIGHT);break;
+					case GOOD_FIRST_STEP:res.add(MinimalMainAction.FORWARD); break;
+					}
+					return res;
+				};
+
+				BiFunction<MinimalMainState, MinimalMainAction, MinimalMainState> transition = (s,a)->
+				{
+					if(a.equals(MinimalMainAction.STAND))return s;
+					if(s.equals(MinimalMainState.START)&&a.equals(MinimalMainAction.RIGHT))return MinimalMainState.GOOD_FIRST_STEP;
+					if(s.equals(MinimalMainState.START)&&a.equals(MinimalMainAction.LEFT))return MinimalMainState.BAD_FIRST_STEP;
+					if(s.equals(MinimalMainState.GOOD_FIRST_STEP)&&a.equals(MinimalMainAction.FORWARD))return MinimalMainState.GOAL;
+					throw new Error();
+				};
+				return FunctionBasedDeterministicWorldModel.newInstance(
+						Arrays.asList(MinimalMainState.values()).stream().collect(Collectors.toSet()),
+						transition,
+						(s,a)->-1d,
+						actionsPerState);
 	}
-	
+
 }

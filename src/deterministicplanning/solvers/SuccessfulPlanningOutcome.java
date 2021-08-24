@@ -18,4 +18,8 @@ public class SuccessfulPlanningOutcome<S extends State, A extends Action> implem
 		return p.toString();
 	}
 
+	public Plan<S, A> getPlan() {
+		return p;
+	}
+
 }
